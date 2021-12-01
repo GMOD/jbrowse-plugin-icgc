@@ -1,12 +1,12 @@
 {
   "version": "0.0.1",
-  "name": "jbrowse-plugin-template",
+  "name": "jbrowse-plugin-icgc",
   "keywords": [
     "jbrowse",
     "jbrowse2"
   ],
   "main": "dist/index.js",
-  "module": "dist/jbrowse-plugin-template.esm.js",
+  "module": "dist/jbrowse-plugin-icgc.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
@@ -19,7 +19,7 @@
     },
     "jbrowse": {
       "plugin": {
-        "name": "Template"
+        "name": "ICGC"
       }
     }
   },
@@ -47,7 +47,7 @@
     "postversion": "git push --follow-tags"
   },
   "jbrowse-plugin": {
-    "name": "Template"
+    "name": "ICGC"
   },
   "prettier": {
     "semi": false,
@@ -89,5 +89,9 @@
     "tslib": "^2.0.3",
     "typescript": "^4.1.3"
   },
-  "private": true
+  "private": true,
+  "description": "JBrowse plugin to integrate resources from the ICGC",
+  "repository": "git@github.com:GMOD/jbrowse-plugin-icgc.git",
+  "author": "Caroline Bridge <cbridge@oicr.on.ca>",
+  "license": "MIT"
 }

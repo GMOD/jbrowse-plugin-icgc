@@ -8,8 +8,8 @@ import {
   stateModel as helloViewStateModel,
 } from './HelloView'
 
-export default class TemplatePlugin extends Plugin {
-  name = 'Template'
+export default class ICGCPlugin extends Plugin {
+  name = 'ICGC'
   version = version
 
   install(pluginManager: PluginManager) {
