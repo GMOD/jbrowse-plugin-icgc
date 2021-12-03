@@ -1,4 +1,4 @@
-describe('My First Test', () => {
+describe('load jb', () => {
   it('visits JBrowse', () => {
     cy.visit('/')
 
