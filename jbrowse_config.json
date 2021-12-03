@@ -2,7 +2,7 @@
   "plugins": [
     {
       "name": "ICGC",
-      "url": "http://localhost:9000/dist/jbrowse-plugin-icgc.umd.development.js"
+      "url": "http://localhost:9100/dist/jbrowse-plugin-icgc.umd.development.js"
     }
   ]
 }

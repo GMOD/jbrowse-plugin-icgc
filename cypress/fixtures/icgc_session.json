@@ -37,7 +37,7 @@
       "type": "ICGCTrack",
       "trackId": "icgc_plugin_track",
       "name": "ICGC Browser",
-      "assemblyNames": ["hg38"],
+      "assemblyNames": ["volvox"],
       "category": ["Annotation"],
       "adapter": {
         "ICGCAdapterId": "DefaultICGCAdapter",
@@ -54,7 +54,7 @@
   "plugins": [
     {
       "name": "ICGC",
-      "url": "http://localhost:9000/dist/jbrowse-plugin-icgc.umd.development.js"
+      "url": "http://localhost:9100/dist/jbrowse-plugin-icgc.umd.development.js"
     }
   ],
   "defaultSession": {

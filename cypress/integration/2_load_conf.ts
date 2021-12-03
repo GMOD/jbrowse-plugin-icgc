@@ -6,6 +6,7 @@ describe('load conf', () => {
     cy.visit('/?config=icgc_session.json')
 
     // The plugin successfully loads
+    cy.contains('Open').click()
     cy.contains('ICGC Browser')
   })
 })
