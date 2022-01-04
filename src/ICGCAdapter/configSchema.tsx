@@ -3,6 +3,35 @@ import { types } from 'mobx-state-tree'
 
 export default ConfigurationSchema(
   'ICGCAdapter',
-  {},
+  {
+    filters: {
+      type: 'string',
+      defaultValue: '{}',
+      description:
+        'The filters to be applied to the track. Only edit if you know what you are doing.',
+    },
+    colourBy: {
+      type: 'string',
+      defaultValue: '{}',
+      description:
+        'Colour features based on track attributes. Only edit if you know what you are doing.',
+    },
+    featureType: {
+      type: 'stringEnum',
+      model: types.enumeration('Feature Type', ['mutations', 'occurrences']),
+      defaultValue: 'mutations',
+      description: 'The type of track to add',
+    },
+    cases: {
+      type: 'stringArray',
+      defaultValue: [],
+      description: 'ICGC case UUIDs',
+    },
+    size: {
+      type: 'integer',
+      defaultValue: 5000,
+      description: 'The max number of features to show.',
+    },
+  },
   { explicitlyTyped: true, explicitIdentifier: 'ICGCAdapterId' },
 )

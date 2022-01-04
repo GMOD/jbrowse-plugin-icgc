@@ -11,10 +11,52 @@ import AbortablePromiseCache from 'abortable-promise-cache'
 import LRU from '@jbrowse/core/util/QuickLRU'
 
 export default class ICGCAdapter extends BaseFeatureDataAdapter {
+  private filters: string
+
+  private cases: string[]
+
+  private size: number
+
+  private featureType: string
+
   public static capabilities = ['getFeatures', 'getRefNames']
 
   public constructor(config: Instance<typeof MyConfigSchema>) {
     super(config)
+
+    const filters = readConfObject(config, 'filters') as string
+    const cases = readConfObject(config, 'cases') as string[]
+    const size = readConfObject(config, 'size') as number
+    const featureType = readConfObject(config, 'featureType') as string
+
+    this.filters = filters
+    this.cases = cases
+    this.size = size
+    this.featureType = featureType
+  }
+
+  private featureCache = new AbortablePromiseCache({
+    cache: new LRU({ maxSize: 200 }),
+    fill: async (query: any, abortSignal?: AbortSignal) => {
+      return this.fetchFeatures(query, abortSignal)
+    },
+  })
+
+  private async fetchFeatures(query: string, signal?: AbortSignal) {
+    const response = await fetch(
+      `https://dcc.icgc.org/api/v1/${this.featureType}?filters=${query}&size=${this.size}`,
+      {
+        method: 'GET',
+        headers: { 'content-type': 'application/json' },
+        signal,
+      },
+    )
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${response.status} ${response.statusText}`,
+      )
+    }
+    return response.json()
   }
 
   public async getRefNames() {
@@ -46,18 +88,81 @@ export default class ICGCAdapter extends BaseFeatureDataAdapter {
     ]
   }
 
-  public getFeatures(region: Region, opts: BaseOptions = {}) {
-    return ObservableCreate<Feature>(async observer => {
-      const features = new Array()
-      features.forEach((f: any) => {
-        if (
-          f.get('refName') === region.refName &&
-          f.get('end') > region.start &&
-          f.get('start') < region.end
-        ) {
-          observer.next(f)
+  private createQuery(location: string, start: number, end: number) {
+    let query = {}
+    if (this.filters != '{}') {
+      const mutation = JSON.parse(this.filters)['mutation']
+      const gene = JSON.parse(this.filters)['gene']
+      const donor = JSON.parse(this.filters)['donor']
+
+      if (mutation) {
+        query = {
+          mutation: {
+            ...mutation,
+            location: {
+              is: `${location}:${start}-${end}`,
+            },
+          },
         }
-      })
+      } else {
+        query = {
+          mutation: {
+            location: {
+              is: `${location}:${start}-${end}`,
+            },
+          },
+        }
+      }
+      if (gene) {
+        query = {
+          ...query,
+          gene,
+        }
+      }
+      if (donor) {
+        query = {
+          ...query,
+          donor,
+        }
+      }
+    } else {
+      query = {
+        mutation: {
+          location: {
+            is: `${location}:${start}-${end}`,
+          },
+        },
+      }
+    }
+    return query
+  }
+
+  public getFeatures(region: Region, opts: BaseOptions = {}) {
+    const { refName, start, end } = region
+
+    return ObservableCreate<Feature>(async observer => {
+      try {
+        const query = this.createQuery(refName, start, end)
+        // idField for occurrences is donorId
+        const idField = this.featureType === 'mutations' ? 'id' : 'donorId'
+
+        const result = await this.featureCache.get(
+          JSON.stringify(query),
+          JSON.stringify(query),
+          opts.signal,
+        )
+
+        for (const hit of result.hits) {
+          const feature = new ICGCFeature({
+            icgcObject: hit,
+            id: hit[idField] as string,
+            featureType: this.featureType,
+          })
+          observer.next(feature)
+        }
+      } catch (e) {
+        observer.error(e)
+      }
       observer.complete()
     }, opts.signal)
   }

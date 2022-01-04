@@ -60,20 +60,14 @@ export default class ICGCFeature implements Feature {
     const featureData: FeatureData = {
       refName: icgcObject.chromosome,
       type: icgcObject.mutationType,
-      start: icgcObject.startPosition - 1,
-      end: icgcObject.endPosition,
+      start: icgcObject.start - 1,
+      end: icgcObject.end,
     }
 
-    switch (featureType) {
-      case 'gene': {
-        featureData.start = icgcObject.geneStart - 1
-        featureData.end = icgcObject.geneEnd
-        featureData.refName = icgcObject.geneChromosome
-        featureData.type = icgcObject.biotype
-        featureData.note = icgcObject.symbol
-        break
-      }
-      default:
+    if (featureType === 'occurrences') {
+      featureData.type = icgcObject.mutationId
+      featureData.id = icgcObject.donorId
+      featureData.note = icgcObject.mutationId
     }
 
     return featureData
