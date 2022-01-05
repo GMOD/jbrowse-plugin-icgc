@@ -63,13 +63,17 @@ function a11yProps(index: any) {
 function ConfigurationEditor({ model }: { model: any }) {
   const classes = useStyles()
   const [value, setValue] = useState(0)
-  const [type, setType] = useState('mutations')
+  const [type, setType] = useState(
+    model.target.adapter.featureType.value
+      ? model.target.adapter.featureType.value
+      : 'mutations',
+  )
 
   const handleChangeTab = (event: any, newValue: any) => {
     setValue(newValue)
   }
 
-  const handleChangeSelect = (event: any) => {
+  const handleChangeType = (event: any) => {
     setType(event.target.value)
     model.target.adapter.featureType.set(event.target.value)
   }
@@ -98,7 +102,7 @@ function ConfigurationEditor({ model }: { model: any }) {
       <Paper className={classes.paper}>
         <Typography variant="h6">Track Type</Typography>
         <FormControl>
-          <Select value={type} onChange={handleChangeSelect}>
+          <Select value={type} onChange={handleChangeType}>
             <MenuItem value={'mutations'}>Mutations</MenuItem>
             <MenuItem value={'occurrences'}>Mutation Occurrences</MenuItem>
           </Select>

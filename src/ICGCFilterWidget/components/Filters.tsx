@@ -52,7 +52,6 @@ async function fetchFeatures(featureType: string) {
 }
 
 const Filter = observer((props: any) => {
-  const classes = useStyles()
   const { facets, schema, filterModel } = props
   const [category, setCategory] = useState(
     filterModel.category
@@ -126,27 +125,6 @@ const Filter = observer((props: any) => {
       return 1
     }
     return 0
-  }
-
-  // TODO: might delete this, not really important and is hard to implement
-  function filterCatsAlreadyApplied(facetsList: any) {
-    // @ts-ignore
-    let list = []
-    schema.filters.forEach((filter: any) => {
-      list.push(filter.category)
-    })
-
-    // @ts-ignore
-    const intersection = facetsList.filter(val => list.includes(val))
-
-    intersection.pop()
-
-    intersection.forEach((filter: any) => {
-      facetsList.splice(facetsList.indexOf(filter), 1)
-    })
-
-    // @ts-ignore
-    return facetsList
   }
 
   return (
