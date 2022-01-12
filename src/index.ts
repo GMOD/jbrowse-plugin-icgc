@@ -94,5 +94,15 @@ export default class ICGCPlugin extends Plugin {
         ...ICGCFilterWidgetF(pluginManager),
       })
     })
+
+    pluginManager.jexl.addFunction('fi', (feature: any) => {
+      return feature.get('functionalImpact')
+        ? feature.get('functionalImpact').includes('High')
+          ? 'red'
+          : feature.get('functionalImpact').includes('Low')
+          ? 'blue'
+          : 'goldenrod'
+        : 'goldenrod'
+    })
   }
 }

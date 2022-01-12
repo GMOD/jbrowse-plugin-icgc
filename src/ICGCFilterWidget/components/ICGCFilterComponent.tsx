@@ -17,6 +17,12 @@ import {
   Select,
   makeStyles,
   IconButton,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Chip,
 } from '@material-ui/core'
 
 import UndoIcon from '@material-ui/icons/Undo'
@@ -157,6 +163,48 @@ function ConfigurationEditor({ model }: { model: any }) {
           <FilterList schema={model} type={type} facetType="mutations" />
         </TabPanel>
       </Paper>
+      {type === 'mutations' ? (
+        <Paper className={classes.paper}>
+          <Typography variant="h6">Colour Legend</Typography>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>functionalImpact</TableCell>
+                <TableCell>Corresponding colour</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell>High</TableCell>
+                <TableCell>
+                  <Chip
+                    label="Red"
+                    style={{ backgroundColor: 'red', color: 'white' }}
+                  ></Chip>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Low</TableCell>
+                <TableCell>
+                  <Chip
+                    label="Blue"
+                    style={{ backgroundColor: 'blue', color: 'white' }}
+                  ></Chip>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Unknown/Undefined</TableCell>
+                <TableCell>
+                  <Chip
+                    label="Goldenrod"
+                    style={{ backgroundColor: 'goldenrod', color: 'white' }}
+                  ></Chip>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Paper>
+      ) : null}
     </div>
   )
 }

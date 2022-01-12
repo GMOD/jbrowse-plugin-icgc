@@ -11,7 +11,12 @@ export function configSchemaFactory(pluginManager: PluginManager) {
   return ConfigurationSchema(
     'LinearICGCDisplay',
     {
-      renderer: pluginManager.pluggableConfigSchemaType('renderer'),
+      renderer: types.optional(
+        pluginManager.pluggableConfigSchemaType('renderer'),
+        {
+          color1: 'jexl:fi(feature)',
+        },
+      ),
     },
     {
       baseConfiguration: baseLinearDisplayConfigSchema,
