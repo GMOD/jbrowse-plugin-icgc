@@ -60,11 +60,5 @@ export default (pluginManager: PluginManager) => {
           return filter.filter.length === 0
         })
       },
-      // setColourBy(newColourBy: any) {
-      //   self.colourBy[0] = newColourBy
-      // },
-      // getColourBy() {
-      //   return self.colourBy[0] ? self.colourBy[0] : {}
-      // },
     }))
 }

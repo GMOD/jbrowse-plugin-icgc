@@ -77,14 +77,9 @@ const Filter = observer((props: any) => {
   }
 
   const handleFiltChange = (event: any) => {
-    if (event.target.value.length != 0) {
-      setFilter(event.target.value)
-      filterModel.setFilter(JSON.stringify(event.target.value))
-      updateTrack(schema.filters, schema.target)
-    } else {
-      schema.deleteFilter(filterModel.id)
-      updateTrack(schema.filters, schema.target)
-    }
+    setFilter(event.target.value)
+    filterModel.setFilter(JSON.stringify(event.target.value))
+    updateTrack(schema.filters, schema.target)
   }
 
   const handleFilterDelete = () => {

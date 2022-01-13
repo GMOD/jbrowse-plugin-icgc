@@ -90,6 +90,7 @@ function ConfigurationEditor({ model }: { model: any }) {
   }
 
   useEffect(() => {
+    model.clearFilters()
     const filters = JSON.parse(model.target.adapter.filters.value)
     for (const filter in filters) {
       for (const prop in filters[filter]) {
