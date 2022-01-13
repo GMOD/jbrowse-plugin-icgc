@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
+  "version": "1.0.0",
   "name": "jbrowse-plugin-icgc",
   "keywords": [
     "jbrowse",
@@ -97,5 +97,5 @@
   "description": "JBrowse 2 plugin to integrate resources from the ICGC",
   "repository": "git@github.com:GMOD/jbrowse-plugin-icgc.git",
   "author": "Caroline Bridge <cbridge@oicr.on.ca>",
-  "license": "Apache-2.0 License"
+  "license": "Apache-2.0"
 }
