@@ -22,11 +22,6 @@ export default ConfigurationSchema(
       defaultValue: 'mutations',
       description: 'The type of track to add',
     },
-    cases: {
-      type: 'stringArray',
-      defaultValue: [],
-      description: 'ICGC case UUIDs',
-    },
     size: {
       type: 'integer',
       defaultValue: 5000,

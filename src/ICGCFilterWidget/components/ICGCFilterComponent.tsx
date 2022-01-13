@@ -109,9 +109,17 @@ function ConfigurationEditor({ model }: { model: any }) {
       <Paper className={classes.paper}>
         <Typography variant="h6">Track Type</Typography>
         <FormControl>
-          <Select value={type} onChange={handleChangeType}>
-            <MenuItem value={'mutations'}>Mutations</MenuItem>
-            <MenuItem value={'occurrences'}>Mutation Occurrences</MenuItem>
+          <Select
+            value={type}
+            onChange={handleChangeType}
+            inputProps={{ 'data-testid': 'icgc_track_type_select' }}
+          >
+            <MenuItem value={'mutations'} data-testid="option_mutations">
+              Mutations
+            </MenuItem>
+            <MenuItem value={'occurrences'} data-testid="option_occurrences">
+              Mutation Occurrences
+            </MenuItem>
           </Select>
           <FormHelperText>
             Select what to retrieve from the ICGC with your selected filters.
@@ -126,7 +134,10 @@ function ConfigurationEditor({ model }: { model: any }) {
             aria-label="clear all filters"
             onClick={handleFilterClear}
           >
-            <IconButton color="primary">
+            <IconButton
+              color="primary"
+              data-testid="clear_all_filters_icon_button"
+            >
               <UndoIcon />
             </IconButton>
           </Tooltip>

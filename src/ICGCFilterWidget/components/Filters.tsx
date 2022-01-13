@@ -132,11 +132,16 @@ const Filter = observer((props: any) => {
               label="Category"
               value={category}
               onChange={handleCatChange}
+              inputProps={{ 'data-testid': 'category_select' }}
             >
               {facets
                 ? Object.keys(facets).map((key: string, idx: number) => {
                     return (
-                      <MenuItem value={key} key={`${key}-${idx}-menuitem`}>
+                      <MenuItem
+                        value={key}
+                        key={`${key}-${idx}-menuitem`}
+                        data-testid={`cat_menuitem_${idx}`}
+                      >
                         {prettify(key)}
                       </MenuItem>
                     )
@@ -153,6 +158,7 @@ const Filter = observer((props: any) => {
               input={<Input />}
               renderValue={(selected: any) => selected.join(', ')}
               multiple
+              inputProps={{ 'data-testid': 'filters_select' }}
             >
               {facets && category && facets[category].terms
                 ? facets[category].terms
@@ -162,6 +168,7 @@ const Filter = observer((props: any) => {
                         <MenuItem
                           value={term.term}
                           key={`${term.term}-${idx}-menuitem`}
+                          data-testid={`fil_menuitem_${idx}`}
                         >
                           <Checkbox
                             checked={
@@ -176,7 +183,11 @@ const Filter = observer((props: any) => {
             </Select>
           </FormControl>
           <Tooltip title="Remove filter" aria-label="remove filter">
-            <IconButton aria-label="remove filter" onClick={handleFilterDelete}>
+            <IconButton
+              aria-label="remove filter"
+              onClick={handleFilterDelete}
+              data-testid="remove_filter_icon_button"
+            >
               <ClearIcon />
             </IconButton>
           </Tooltip>

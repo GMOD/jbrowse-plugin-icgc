@@ -13,8 +13,6 @@ import LRU from '@jbrowse/core/util/QuickLRU'
 export default class ICGCAdapter extends BaseFeatureDataAdapter {
   private filters: string
 
-  private cases: string[]
-
   private size: number
 
   private featureType: string
@@ -25,12 +23,10 @@ export default class ICGCAdapter extends BaseFeatureDataAdapter {
     super(config)
 
     const filters = readConfObject(config, 'filters') as string
-    const cases = readConfObject(config, 'cases') as string[]
     const size = readConfObject(config, 'size') as number
     const featureType = readConfObject(config, 'featureType') as string
 
     this.filters = filters
-    this.cases = cases
     this.size = size
     this.featureType = featureType
   }
