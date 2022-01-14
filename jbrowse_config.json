@@ -4,5 +4,127 @@
       "name": "ICGC",
       "url": "http://localhost:9100/dist/jbrowse-plugin-icgc.umd.development.js"
     }
-  ]
+  ],
+  "assemblies": [
+    {
+      "name": "hg38",
+      "aliases": ["GRCh38"],
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "P6R5xbRqRr",
+        "adapter": {
+          "type": "BgzipFastaAdapter",
+          "fastaLocation": {
+            "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.fai",
+            "locationType": "UriLocation"
+          },
+          "gziLocation": {
+            "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.gzi",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "refNameAliases": {
+        "adapter": {
+          "type": "RefNameAliasAdapter",
+          "location": {
+            "uri": "https://jbrowse.org/genomes/GRCh38/hg38_aliases.txt",
+            "locationType": "UriLocation"
+          }
+        }
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "type": "FeatureTrack",
+      "trackId": "ncbi_refseq_109_hg38_latest",
+      "name": "NCBI RefSeq (GFF3Tabix)",
+      "assemblyNames": ["hg38"],
+      "category": ["Annotation"],
+      "adapter": {
+        "type": "Gff3TabixAdapter",
+        "gffGzLocation": {
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GRCh38_latest_genomic.sort.gff.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GRCh38_latest_genomic.sort.gff.gz.tbi",
+            "locationType": "UriLocation"
+          }
+        }
+      }
+    },
+    {
+      "type": "ICGCTrack",
+      "trackId": "icgc_plugin_track",
+      "name": "ICGC Browse",
+      "assemblyNames": ["hg38"],
+      "category": ["Annotation"],
+      "adapter": {
+        "ICGCAdapterId": "DefaultICGCAdapter",
+        "type": "ICGCAdapter"
+      },
+      "displays": [
+        {
+          "type": "LinearICGCDisplay",
+          "displayId": "icgc_plugin_track_linear"
+        }
+      ]
+    }
+  ],
+  "defaultSession": {
+    "name": "Human Example (hg38)",
+    "width": 1850,
+    "drawerWidth": 384,
+    "views": [
+      {
+        "id": "MiDMyyWpp",
+        "type": "LinearGenomeView",
+        "width": 800,
+        "displayName": "ICGC",
+        "trackSelectorType": "hierarchical",
+        "offsetPx": 12490000,
+        "bpPerPx": 10,
+        "displayedRegions": [
+          {
+            "refName": "3",
+            "start": 0,
+            "end": 186700647,
+            "assemblyName": "hg38"
+          }
+        ],
+        "tracks": [
+          {
+            "type": "FeatureTrack",
+            "configuration": "gencode_nclist_hg38",
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "configuration": "gencode_nclist_hg38_linear",
+                "height": 150
+              }
+            ]
+          },
+          {
+            "type": "ICGCTrack",
+            "configuration": "icgc_plugin_track",
+            "displays": [
+              {
+                "type": "LinearICGCDisplay",
+                "configuration": "icgc_plugin_track_linear"
+              }
+            ]
+          }
+        ],
+        "controlsWidth": 120,
+        "minimumBlockWidth": 20
+      }
+    ]
+  }
 }

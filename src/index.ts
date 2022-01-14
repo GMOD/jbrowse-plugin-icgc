@@ -9,6 +9,7 @@ import DisplayType from '@jbrowse/core/pluggableElementTypes/DisplayType'
 import WidgetType from '@jbrowse/core/pluggableElementTypes/WidgetType'
 import TrackType from '@jbrowse/core/pluggableElementTypes/TrackType'
 import AdapterType from '@jbrowse/core/pluggableElementTypes/AdapterType'
+import { SessionWithWidgets, isAbstractMenuManager } from '@jbrowse/core/util'
 import { version } from '../package.json'
 
 import {
@@ -18,10 +19,12 @@ import {
 
 import ICGCFeatureWidgetF from './ICGCFeatureWidget'
 import ICGCFilterWidgetF from './ICGCFilterWidget'
+import ICGCSearchWidgetF from './ICGCSearchWidget'
 import {
   configSchema as icgcConfigSchema,
   AdapterClass as ICGCAdapter,
 } from './ICGCAdapter'
+import { DataExploration } from './UI/Icons'
 
 export default class ICGCPlugin extends Plugin {
   name = 'ICGC'
@@ -95,6 +98,14 @@ export default class ICGCPlugin extends Plugin {
       })
     })
 
+    pluginManager.addWidgetType(() => {
+      return new WidgetType({
+        name: 'ICGCSearchWidget',
+        heading: 'Search ICGC',
+        ...ICGCSearchWidgetF(pluginManager),
+      })
+    })
+
     pluginManager.jexl.addFunction('fi', (feature: any) => {
       return feature.get('functionalImpact')
         ? feature.get('functionalImpact').includes('High')
@@ -104,5 +115,19 @@ export default class ICGCPlugin extends Plugin {
           : 'goldenrod'
         : 'goldenrod'
     })
+  }
+
+  configure(pluginManager: PluginManager) {
+    if (isAbstractMenuManager(pluginManager.rootModel)) {
+      pluginManager.rootModel.appendToMenu('Tools', {
+        label: 'ICGC Data Import',
+        icon: DataExploration,
+        onClick: (session: SessionWithWidgets) => {
+          session.showWidget(
+            session.addWidget('ICGCSearchWidget', 'icgcSearchWidget'),
+          )
+        },
+      })
+    }
   }
 }
