@@ -50,7 +50,7 @@ exports[`ICGCTrack widget renders a gene with the required model elements 1`] = 
       </div>
     </div>
     <div
-      class="MuiCollapse-container MuiCollapse-entered"
+      class="MuiCollapse-root MuiCollapse-entered"
       style="min-height: 0px;"
     >
       <div
@@ -273,7 +273,7 @@ exports[`ICGCTrack widget renders a gene with the required model elements 1`] = 
       </div>
     </div>
     <div
-      class="MuiCollapse-container MuiCollapse-entered"
+      class="MuiCollapse-root MuiCollapse-entered"
       style="min-height: 0px;"
     >
       <div
@@ -380,7 +380,7 @@ exports[`ICGCTrack widget renders a mutation with the required model elements 1`
       </div>
     </div>
     <div
-      class="MuiCollapse-container MuiCollapse-entered"
+      class="MuiCollapse-root MuiCollapse-entered"
       style="min-height: 0px;"
     >
       <div
@@ -667,7 +667,7 @@ exports[`ICGCTrack widget renders a mutation with the required model elements 1`
       </div>
     </div>
     <div
-      class="MuiCollapse-container MuiCollapse-entered"
+      class="MuiCollapse-root MuiCollapse-entered"
       style="min-height: 0px;"
     >
       <div
