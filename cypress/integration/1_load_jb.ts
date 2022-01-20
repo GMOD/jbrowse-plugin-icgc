@@ -1,5 +1,5 @@
 describe('load jb', () => {
-  it('visits JBrowse', () => {
+  it.skip('visits JBrowse', () => {
     cy.visit('/?config=config.json')
 
     // The splash screen successfully loads
