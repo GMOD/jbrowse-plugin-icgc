@@ -43,7 +43,12 @@ export default class ICGCAdapter extends BaseFeatureDataAdapter {
       `https://dcc.icgc.org/api/v1/${this.featureType}?filters=${query}&size=${this.size}`,
       {
         method: 'GET',
-        headers: { 'content-type': 'application/json' },
+        headers: {
+          'content-type': 'application/json',
+          cookie: `dcc_portal_token=${sessionStorage.getItem(
+            'ICGCExternalToken-token',
+          )}`,
+        },
         signal,
       },
     )

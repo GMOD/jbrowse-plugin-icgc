@@ -131,7 +131,10 @@ function Observations(props: any) {
                         !knownBrokenLinks.find(
                           element => element === observation[attribute],
                         )) ? (
-                        <Link href={observation[attribute].match(urlRegex)}>
+                        <Link
+                          target="_blank"
+                          href={observation[attribute].match(urlRegex)}
+                        >
                           {observation[attribute].split(urlRegex)[0]}
                         </Link>
                       ) : (

@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react'
 import { observer } from 'mobx-react'
 import {
   Button,
-  Grid,
   Paper,
   TextField,
   Typography,
@@ -10,7 +9,6 @@ import {
 } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 import AddIcon from '@material-ui/icons/Add'
-import ExitToApp from '@material-ui/icons/ExitToApp'
 import { getSession } from '@jbrowse/core/util'
 
 const useStyles = makeStyles(theme => ({
@@ -38,17 +36,55 @@ const useStyles = makeStyles(theme => ({
 function Panel({ model }: { model: any }) {
   const classes = useStyles()
 
-  const [tokenStored, setTokenStored] = useState(false)
-  const [authErrorMessage, setAuthErrorMessage] = useState<String>()
-  const [success, setSuccess] = useState(false)
-  const [trackErrorMessage, setTrackErrorMessage] = useState<String>()
-  const [trackInfoMessage, setTrackInfoMessage] = useState<String>()
   const [browseSuccess, setBrowseSuccess] = useState(false)
+  const [trackSuccess, setTrackSuccess] = useState(false)
+  const [trackErrorMessage, setTrackErrorMessage] = useState<String>()
 
   const session = getSession(model)
   const inputRef = useRef()
 
-  const handleSubmit = async () => {}
+  function resetMessages() {
+    setTrackErrorMessage(undefined)
+    setTrackSuccess(false)
+  }
+
+  const handleSubmit = () => {
+    resetMessages()
+    try {
+      //@ts-ignore
+      let fileReq = inputRef ? inputRef.current.value : undefined
+      fileReq = fileReq.split('/')[4]
+
+      if (session) {
+        const datenow = Date.now()
+        const trackId = `file-${datenow}`
+        // @ts-ignore
+        session.addTrackConf({
+          type: 'FeatureTrack',
+          trackId,
+          name: `check-1`,
+          assemblyNames: ['hg38'],
+          category: ['Annotation'],
+          adapter: {
+            type: 'DCCAdapter',
+            dccLocation: {
+              uri: `https://dcc.icgc.org/api/v1/download?fn=/current/Projects/GACA-CN/simple_somatic_mutation.open.GACA-CN.tsv.gz`,
+              locationType: 'UriLocation',
+            },
+          },
+        })
+        // @ts-ignore
+        session.views[0].showTrack(trackId)
+        setTrackSuccess(true)
+      }
+    } catch (e) {
+      console.error(e)
+      const message =
+        // @ts-ignore
+        e.message.length > 100 ? `${e.message.substring(0, 99)}...` : e
+      setTrackErrorMessage(`Failed to add track.\n ${message}.`)
+    }
+  }
 
   const handleAddBrowse = () => {
     if (session) {
@@ -74,64 +110,31 @@ function Panel({ model }: { model: any }) {
       })
       // @ts-ignore
       session.views[0].showTrack(trackId)
+      setBrowseSuccess(true)
     }
   }
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        {tokenStored ? (
-          <Alert severity="success">
-            Your token has been stored.
-            <br />
-            Verification of your token will be performed when you attempt to
-            access controlled data.
-          </Alert>
-        ) : null}
-        {authErrorMessage ? (
-          <Alert severity="error">{authErrorMessage}</Alert>
-        ) : null}
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography variant="body1">
-            Login to access controlled data
-          </Typography>
-          <Button
-            color="primary"
-            variant="contained"
-            size="small"
-            startIcon={<ExitToApp />}
-          >
-            Login
-          </Button>
-        </Grid>
-      </Paper>
-      <Paper className={classes.paper}>
         <Typography variant="h6" component="h1" align="center">
-          Import File by UUID or URL
+          Import DCC File by URL
         </Typography>
         <Typography variant="body1" align="center">
-          Add a track by providing the UUID or URL of a file, including
-          controlled data.
+          Add a track by providing the URL of a DCC file, including controlled
+          data.
         </Typography>
         {trackErrorMessage ? (
           <Alert severity="error">{trackErrorMessage}</Alert>
         ) : null}
-        {trackInfoMessage ? (
-          <Alert severity="info">{trackInfoMessage}</Alert>
-        ) : null}
-        {success ? (
+        {trackSuccess ? (
           <Alert severity="success">The requested track has been added.</Alert>
         ) : null}
         <div className={classes.submitContainer}>
           <TextField
             color="primary"
             variant="outlined"
-            label="Enter UUID or URL"
+            label="Enter URL"
             inputRef={inputRef}
           />
           <div className={classes.buttonContainer}>

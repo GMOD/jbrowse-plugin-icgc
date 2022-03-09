@@ -69,6 +69,7 @@
     "@babel/preset-react": "^7.10.4",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@gmod/bgzf-filehandle": "^1.4.2",
     "@jbrowse/cli": "^1.5.0",
     "@jbrowse/core": "^1.5.0",
     "@jbrowse/development-tools": "^1.5.0",
