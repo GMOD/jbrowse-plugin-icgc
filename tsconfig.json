@@ -33,6 +33,11 @@
     "allowJs": true,
     "resolveJsonModule": false
   },
+  // Jest uses ts-node to load the jest.config.ts file
+  "ts-node": {
+    "transpileOnly": true,
+    "project": "./tsconfig.test.json"
+  },
   "include": ["src"],
   "exclude": ["**/dist/"]
 }
