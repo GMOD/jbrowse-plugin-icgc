@@ -18,6 +18,11 @@ import {
   stateModelFactory as linearICGCDisplayStateModelFactory,
 } from './LinearICGCDisplay'
 import {
+  // @ts-ignore
+  AdapterGuesser,
+} from '@jbrowse/core/util/tracks'
+import { FileLocation } from '@jbrowse/core/util/types'
+import {
   configSchema as ICGCInternetAccountConfigSchema,
   modelFactory as ICGCInternetAccountModelFactory,
 } from './ICGCInternetAccount'
@@ -130,11 +135,34 @@ export default class ICGCPlugin extends Plugin {
         configSchema: dccConfigSchema,
         // @ts-ignore
         adapterMetadata: {
-          hiddenFromGUI: true,
+          category: 'ICGC Plugin Adapters',
+          displayName: null,
+          description: null,
         },
         AdapterClass: DCCAdapter,
       })
     })
+
+    pluginManager.addToExtensionPoint(
+      'Core-guessAdapterForLocation',
+      (adapterGuesser: AdapterGuesser) => {
+        return (
+          file: FileLocation,
+          index?: FileLocation,
+          adapterHint?: string,
+        ) => {
+          const adapterName = 'DCCAdapter'
+
+          if (adapterHint === adapterName) {
+            return {
+              type: adapterName,
+              dccLocation: file,
+            }
+          }
+          return adapterGuesser(file, index, adapterHint)
+        }
+      },
+    )
 
     pluginManager.jexl.addFunction('fi', (feature: any) => {
       return feature.get('functionalImpact')

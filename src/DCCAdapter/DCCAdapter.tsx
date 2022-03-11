@@ -10,7 +10,6 @@ import { readConfObject } from '@jbrowse/core/configuration'
 import { AnyConfigurationModel } from '@jbrowse/core/configuration/configurationSchema'
 import PluginManager from '@jbrowse/core/PluginManager'
 import { getSubAdapterType } from '@jbrowse/core/data_adapters/dataAdapterCache'
-import { unzip } from '@gmod/bgzf-filehandle'
 
 export default class DCCAdapter extends BaseFeatureDataAdapter {
   public static capabilities = ['getFeatures', 'getRefNames']
@@ -29,37 +28,19 @@ export default class DCCAdapter extends BaseFeatureDataAdapter {
     this.config = config
   }
 
-  private async decodeFileContents() {
+  private async readDcc() {
     const dccLocation = readConfObject(
       this.config,
       'dccLocation',
     ) as FileLocation
 
-    let fileContents = await openLocation(
+    let fileContents = (await openLocation(
       dccLocation,
       // @ts-ignore
       this.pluginManager,
-    ).readFile()
+    ).readFile()) as string
 
-    if (
-      typeof fileContents[0] === 'number' &&
-      fileContents[0] === 31 &&
-      typeof fileContents[1] === 'number' &&
-      fileContents[1] === 139 &&
-      typeof fileContents[2] === 'number' &&
-      fileContents[2] === 8
-    ) {
-      // fileContents = new TextDecoder().decode(pako.ungzip(fileContents))
-      fileContents = new TextDecoder().decode(await unzip(fileContents))
-      console.log(fileContents)
-    } else {
-      fileContents = fileContents.toString()
-    }
-
-    return this.readDcc(fileContents as string)
-  }
-
-  private async readDcc(fileContents: string) {
+    console.log(fileContents)
     const lines = fileContents.split('\n')
     console.log(lines)
     const refNames: string[] = []
@@ -94,9 +75,6 @@ export default class DCCAdapter extends BaseFeatureDataAdapter {
         if (i === 0) {
           segment.id = property
         } else {
-          /* some SEG files have different data, this logic is to ensure that we don't need special
-             colouring functions to accomodate for those differences...mean and copy number indicate
-             the track colouring */
           if (
             columns[i].toLowerCase() === 'segment_mean' ||
             columns[i].toLowerCase() === 'copy_number'
@@ -111,19 +89,18 @@ export default class DCCAdapter extends BaseFeatureDataAdapter {
   }
 
   private async getLines() {
-    const { columns, lines } = await this.decodeFileContents()
+    const { columns, lines } = await this.readDcc()
     console.log(lines)
 
     return lines.map((line, index) => {
       const segment = this.parseLine(line, columns)
       console.log(segment)
       return new SimpleFeature({
-        uniqueId: segment.id,
-        id: segment.id,
-        start: +segment.start,
-        end: +segment.end,
+        uniqueId: segment.icgc_mutation_id,
+        id: segment.icgc_mutation_id,
+        start: +segment.chromosome_start,
+        end: +segment.chromosome_end,
         refName: segment.chromosome,
-        score: +segment.score,
         ...segment,
       })
     })
@@ -137,33 +114,31 @@ export default class DCCAdapter extends BaseFeatureDataAdapter {
   }
 
   public async getRefNames(_: BaseOptions = {}) {
-    // const { refNames } = await this.readDcc()
-    // return refNames
     return [
-      'chr1',
-      'chr2',
-      'chr3',
-      'chr4',
-      'chr5',
-      'chr6',
-      'chr7',
-      'chr8',
-      'chr9',
-      'chr10',
-      'chr11',
-      'chr12',
-      'chr13',
-      'chr14',
-      'chr15',
-      'chr16',
-      'chr17',
-      'chr18',
-      'chr19',
-      'chr20',
-      'chr21',
-      'chr22',
-      'chrX',
-      'chrY',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      '11',
+      '12',
+      '13',
+      '14',
+      '15',
+      '16',
+      '17',
+      '18',
+      '19',
+      '20',
+      '21',
+      '22',
+      'X',
+      'Y',
     ]
   }
 
