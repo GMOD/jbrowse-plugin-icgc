@@ -69,6 +69,7 @@
   "devDependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-react": "^7.10.4",
+    "@gmod/bgzf-filehandle": "^1.4.2",
     "@jbrowse/cli": "^1.5.1",
     "@jbrowse/core": "^1.5.2",
     "@jbrowse/development-tools": "^1.5.3",

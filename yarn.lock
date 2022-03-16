@@ -1856,6 +1856,16 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@gmod/bgzf-filehandle@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@gmod/bgzf-filehandle/-/bgzf-filehandle-1.4.2.tgz#2523e50cebedfdcb49c7c040365bcb22de3ad964"
+  integrity sha512-eJBFPvH4fqIjVtJtFXw2DKiJYqL/9bOz/cLu5Xn+nGGve2avQ62Bl5aa20SNHSZyoL1QsgY5tGzJwH0IKUtvHg==
+  dependencies:
+    es6-promisify "^7.0.0"
+    generic-filehandle "^2.2.1"
+    long "^5.1.0"
+    pako "^1.0.11"
+
 "@gmod/gff@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@gmod/gff/-/gff-1.2.0.tgz#f401ac4f3dc2f2a16c4d238c35619aeff2ac1c97"
@@ -7512,7 +7522,7 @@ gauge@^3.0.0:
     strip-ansi "^3.0.1 || ^4.0.0"
     wide-align "^1.1.2"
 
-generic-filehandle@^2.2.2:
+generic-filehandle@^2.2.1, generic-filehandle@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/generic-filehandle/-/generic-filehandle-2.2.2.tgz#6493f4e8c0f9fc26d4086fbfa5d51879d0046f40"
   integrity sha512-/YRwruMy53YNTNISJa7YWYVCKqSUzx1v+17xi/bYFX9TjBKNm4otuXZ8eXXeaf4S48ncufU8ihmsvHoi0RzJHA==

@@ -19,17 +19,17 @@ const stateModelFactory = (configSchema: ICGCInternetAccountConfigModel) => {
     .volatile(() => ({
       needsToken: false,
     }))
-    .views(self => ({
+    .views((self) => ({
       get internetAccountType() {
         return 'ICGCInternetAccount'
       },
     }))
-    .actions(self => ({
+    .actions((self) => ({
       setNeedsToken(bool: boolean) {
         self.needsToken = bool
       },
     }))
-    .actions(self => ({
+    .actions((self) => ({
       getTokenFromUser(
         resolve: (token: string) => void,
         reject: (error: Error) => void,
@@ -71,7 +71,7 @@ const stateModelFactory = (configSchema: ICGCInternetAccountConfigModel) => {
         }
       },
     }))
-    .actions(self => {
+    .actions((self) => {
       // @ts-ignore
       const superGetToken = self.getToken
       const needsToken = new Map()

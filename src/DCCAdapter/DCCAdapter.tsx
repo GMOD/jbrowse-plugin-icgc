@@ -10,6 +10,7 @@ import { readConfObject } from '@jbrowse/core/configuration'
 import { AnyConfigurationModel } from '@jbrowse/core/configuration/configurationSchema'
 import PluginManager from '@jbrowse/core/PluginManager'
 import { getSubAdapterType } from '@jbrowse/core/data_adapters/dataAdapterCache'
+import { unzip } from '@gmod/bgzf-filehandle'
 
 export default class DCCAdapter extends BaseFeatureDataAdapter {
   public static capabilities = ['getFeatures', 'getRefNames']
@@ -28,26 +29,43 @@ export default class DCCAdapter extends BaseFeatureDataAdapter {
     this.config = config
   }
 
-  private async readDcc() {
+  private async decodeFileContents() {
     const dccLocation = readConfObject(
       this.config,
       'dccLocation',
     ) as FileLocation
 
-    let fileContents = (await openLocation(
+    let fileContents = await openLocation(
       dccLocation,
       // @ts-ignore
       this.pluginManager,
-    ).readFile()) as string
+    ).readFile()
 
-    console.log(fileContents)
+    var text
+    if (
+      typeof fileContents[0] === 'number' &&
+      fileContents[0] === 31 &&
+      typeof fileContents[1] === 'number' &&
+      fileContents[1] === 139 &&
+      typeof fileContents[2] === 'number' &&
+      fileContents[2] === 8
+    ) {
+      text = await unzip(fileContents)
+      text = text.toString()
+    } else {
+      text = fileContents.toString()
+    }
+
+    return this.readDcc(text as string)
+  }
+
+  private async readDcc(fileContents: string) {
     const lines = fileContents.split('\n')
-    console.log(lines)
     const refNames: string[] = []
     const rows: string[] = []
     let columns: string[] = []
     let refNameColumnIndex = 0
-    lines.forEach(line => {
+    lines.forEach((line) => {
       if (columns.length === 0) {
         columns = line.split('\t')
         const chromosome = (element: any) =>
@@ -89,15 +107,22 @@ export default class DCCAdapter extends BaseFeatureDataAdapter {
   }
 
   private async getLines() {
-    const { columns, lines } = await this.readDcc()
-    console.log(lines)
-
+    const { columns, lines } = await this.decodeFileContents()
+    if (lines.length === 0) {
+      throw Error(
+        'This file has no location data and thus cannot be displayed in the linear genome view. Try opening the file in a Spreadsheet View instead',
+      )
+    }
     return lines.map((line, index) => {
       const segment = this.parseLine(line, columns)
-      console.log(segment)
+      const id = segment.icgc_mutation_id
+        ? segment.icgc_mutation_id
+        : segment.icgc_donor_id
+        ? segment.icgc_donor_id
+        : segment.icgc_specimen_id
       return new SimpleFeature({
-        uniqueId: segment.icgc_mutation_id,
-        id: segment.icgc_mutation_id,
+        uniqueId: id,
+        id: id,
         start: +segment.chromosome_start,
         end: +segment.chromosome_end,
         refName: segment.chromosome,
@@ -143,9 +168,9 @@ export default class DCCAdapter extends BaseFeatureDataAdapter {
   }
 
   public getFeatures(region: Region, opts: BaseOptions = {}) {
-    return ObservableCreate<Feature>(async observer => {
+    return ObservableCreate<Feature>(async (observer) => {
       const feats = await this.setup()
-      feats.forEach(f => {
+      feats.forEach((f) => {
         if (
           f.get('refName') === region.refName &&
           f.get('end') > region.start &&

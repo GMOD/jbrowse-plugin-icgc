@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   closeButton: {
     position: 'absolute',
     right: theme.spacing(1),
@@ -96,8 +96,8 @@ export default function LoginDialogue({
                 color="primary"
                 variant="outlined"
                 label="Enter token"
-                onChange={event => {
-                  setToken(event.target.value)
+                onChange={(event) => {
+                  setToken(`dcc_portal_token=${event.target.value}`)
                 }}
               />
               <div className={classes.buttonContainer}>

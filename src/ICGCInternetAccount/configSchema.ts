@@ -4,7 +4,13 @@ import { BaseInternetAccountConfig } from '@jbrowse/core/pluggableElementTypes/m
 
 const ICGCConfigSchema = ConfigurationSchema(
   'ICGCInternetAccount',
-  {},
+  {
+    authHeader: {
+      description: 'custom auth header for authorization',
+      type: 'string',
+      defaultValue: 'Cookie',
+    },
+  },
   {
     baseConfiguration: BaseInternetAccountConfig,
     explicitlyTyped: true,
@@ -12,7 +18,6 @@ const ICGCConfigSchema = ConfigurationSchema(
 )
 
 export type ICGCInternetAccountConfigModel = typeof ICGCConfigSchema
-export type OAuthInternetAccountConfig = Instance<
-  ICGCInternetAccountConfigModel
->
+export type OAuthInternetAccountConfig =
+  Instance<ICGCInternetAccountConfigModel>
 export default ICGCConfigSchema

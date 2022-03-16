@@ -11,7 +11,7 @@ import { Alert } from '@material-ui/lab'
 import AddIcon from '@material-ui/icons/Add'
 import { getSession } from '@jbrowse/core/util'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(1),
   },
@@ -53,7 +53,7 @@ function Panel({ model }: { model: any }) {
     try {
       //@ts-ignore
       let fileReq = inputRef ? inputRef.current.value : undefined
-      fileReq = fileReq.split('/')[4]
+      fileReq = fileReq.split('https://dcc.icgc.org/releases')[1]
 
       if (session) {
         const datenow = Date.now()
@@ -62,13 +62,13 @@ function Panel({ model }: { model: any }) {
         session.addTrackConf({
           type: 'FeatureTrack',
           trackId,
-          name: `check-1`,
+          name: `${fileReq}`,
           assemblyNames: ['hg38'],
           category: ['Annotation'],
           adapter: {
             type: 'DCCAdapter',
             dccLocation: {
-              uri: `https://dcc.icgc.org/api/v1/download?fn=/current/Projects/GACA-CN/simple_somatic_mutation.open.GACA-CN.tsv.gz`,
+              uri: `https://dcc.icgc.org/api/v1/download?fn=${fileReq}`,
               locationType: 'UriLocation',
             },
           },

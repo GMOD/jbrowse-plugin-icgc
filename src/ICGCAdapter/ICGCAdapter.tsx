@@ -45,9 +45,6 @@ export default class ICGCAdapter extends BaseFeatureDataAdapter {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
-          cookie: `dcc_portal_token=${sessionStorage.getItem(
-            'ICGCExternalToken-token',
-          )}`,
         },
         signal,
       },
@@ -141,7 +138,7 @@ export default class ICGCAdapter extends BaseFeatureDataAdapter {
   public getFeatures(region: Region, opts: BaseOptions = {}) {
     const { refName, start, end } = region
 
-    return ObservableCreate<Feature>(async observer => {
+    return ObservableCreate<Feature>(async (observer) => {
       try {
         const query = this.createQuery(refName, start, end)
         // idField for occurrences is donorId
