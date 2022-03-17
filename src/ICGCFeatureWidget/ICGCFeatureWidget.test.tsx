@@ -9,7 +9,8 @@ describe('ICGCTrack widget', () => {
     const f = types
       .model({
         // used as proxy for session
-        rpcManager: 'hello',
+        pluginManager: types.optional(types.frozen(), {}),
+        rpcManager: types.optional(types.frozen(), {}),
         // used as proxy for session
         configuration: ConfigurationSchema('null', {}),
         featureData: types.frozen({

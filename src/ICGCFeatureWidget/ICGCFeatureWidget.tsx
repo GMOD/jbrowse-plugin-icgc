@@ -33,7 +33,8 @@ const useStyles = makeStyles(() => ({
 }))
 
 // retrieved from https://stackoverflow.com/questions/6038061/regular-expression-to-find-urls-within-a-string?page=2&tab=votes#tab-top
-const urlRegex = /(?:(?:((http|ftp|https):){0,1}\/\/)|www\.)([\w_-]+(?:(?:\.[\w_-]+)+))(?:([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]){0,1})/g
+const urlRegex =
+  /(?:(?:((http|ftp|https):){0,1}\/\/)|www\.)([\w_-]+(?:(?:\.[\w_-]+)+))(?:([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]){0,1})/g
 
 function determineAttributesWithLinks(attributes: any) {
   // @ts-ignore
@@ -129,7 +130,7 @@ function Observations(props: any) {
                       {observation[attribute].includes('http') ||
                       (observation[attribute].includes('www') &&
                         !knownBrokenLinks.find(
-                          element => element === observation[attribute],
+                          (element) => element === observation[attribute],
                         )) ? (
                         <Link
                           target="_blank"
