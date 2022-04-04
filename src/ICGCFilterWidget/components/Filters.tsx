@@ -21,7 +21,7 @@ import {
 import AddIcon from '@material-ui/icons/Add'
 import ClearIcon from '@material-ui/icons/Clear'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   buttonLabel: {
     gap: theme.spacing(1),
   },
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 
 async function fetchFeatures(featureType: string) {
   const response = await fetch(
-    `https://dcc.icgc.org/api/v1/${featureType}?facetsOnly=true&include=facets`,
+    `http://localhost:7080/proxy/api/v1/${featureType}?facetsOnly=true&include=facets`,
     {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
@@ -107,7 +107,7 @@ const Filter = observer((props: any) => {
 
   // https://stackoverflow.com/questions/4149276/how-to-convert-camelcase-to-camel-case
   function prettify(string: string) {
-    return string.replace(/([A-Z])/g, ' $1').replace(/^./, function(str) {
+    return string.replace(/([A-Z])/g, ' $1').replace(/^./, function (str) {
       return str.toUpperCase()
     })
   }

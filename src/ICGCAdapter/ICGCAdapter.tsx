@@ -40,7 +40,7 @@ export default class ICGCAdapter extends BaseFeatureDataAdapter {
 
   private async fetchFeatures(query: string, signal?: AbortSignal) {
     const response = await fetch(
-      `https://dcc.icgc.org/api/v1/${this.featureType}?filters=${query}&size=${this.size}`,
+      `http://localhost:7080/proxy/api/v1/${this.featureType}?filters=${query}&size=${this.size}`,
       {
         method: 'GET',
         headers: { 'content-type': 'application/json' },
@@ -136,7 +136,7 @@ export default class ICGCAdapter extends BaseFeatureDataAdapter {
   public getFeatures(region: Region, opts: BaseOptions = {}) {
     const { refName, start, end } = region
 
-    return ObservableCreate<Feature>(async observer => {
+    return ObservableCreate<Feature>(async (observer) => {
       try {
         const query = this.createQuery(refName, start, end)
         // idField for occurrences is donorId
