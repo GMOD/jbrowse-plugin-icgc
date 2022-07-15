@@ -56,11 +56,6 @@
     "singleQuote": true,
     "trailingComma": "all"
   },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "<rootDir>/cypress/"
-    ]
-  },
   "dependencies": {
     "uuid": "^8.3.2"
   },

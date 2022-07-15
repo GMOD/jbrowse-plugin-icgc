@@ -55,6 +55,9 @@ function Panel({ model }: { model: any }) {
           },
         ],
       })
+      if (session.views.length === 0) {
+        session.addView('LinearGenomeView', {})
+      }
       // @ts-ignore
       session.views[0].showTrack(trackId)
       setBrowseSuccess(true)

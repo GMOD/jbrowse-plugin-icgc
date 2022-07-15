@@ -2,10 +2,10 @@ import { ConfigurationSchema } from '@jbrowse/core/configuration'
 import PluginManager from '@jbrowse/core/PluginManager'
 import { ElementId } from '@jbrowse/core/util/types/mst'
 import { types } from 'mobx-state-tree'
-import ReactComponent from './ICGCFeatureWidget'
 
-export default (pluginManager: PluginManager) => {
-  const configSchema = ConfigurationSchema('ICGCFeatureWidget', {})
+export const configSchema = ConfigurationSchema('GDCFeatureWidget', {})
+
+export function stateModelFactory(pluginManager: PluginManager) {
   const stateModel = types
     .model('ICGCFeatureWidget', {
       id: ElementId,
@@ -15,7 +15,7 @@ export default (pluginManager: PluginManager) => {
         pluginManager.pluggableMstType('view', 'stateModel'),
       ),
     })
-    .actions(self => ({
+    .actions((self) => ({
       setFeatureData(data: any) {
         self.featureData = data
       },
@@ -24,5 +24,5 @@ export default (pluginManager: PluginManager) => {
       },
     }))
 
-  return { configSchema, stateModel, ReactComponent }
+  return stateModel
 }

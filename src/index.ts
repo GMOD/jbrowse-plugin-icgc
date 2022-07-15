@@ -17,7 +17,11 @@ import {
   stateModelFactory as linearICGCDisplayStateModelFactory,
 } from './LinearICGCDisplay'
 
-import ICGCFeatureWidgetF from './ICGCFeatureWidget'
+import {
+  configSchema as icgcFeatureWidgetConfigSchema,
+  stateModelFactory as icgcFeatureWidgetStateModelFactory,
+} from './ICGCFeatureWidget'
+import icgcFeatureWidgetReactComponent from './ICGCFeatureWidget/ICGCFeatureWidget'
 import ICGCFilterWidgetF from './ICGCFilterWidget'
 import ICGCSearchWidgetF from './ICGCSearchWidget'
 import {
@@ -87,7 +91,9 @@ export default class ICGCPlugin extends Plugin {
       return new WidgetType({
         name: 'ICGCFeatureWidget',
         heading: 'Feature Details',
-        ...ICGCFeatureWidgetF(pluginManager),
+        configSchema: icgcFeatureWidgetConfigSchema,
+        stateModel: icgcFeatureWidgetStateModelFactory(pluginManager),
+        ReactComponent: icgcFeatureWidgetReactComponent,
       })
     })
 
