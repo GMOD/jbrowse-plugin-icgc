@@ -15,9 +15,7 @@ describe('nav filter widget', () => {
   })
 
   it('changes the track type', () => {
-    cy.get('[data-testid=icgc_track_type_select]')
-      .parent()
-      .click()
+    cy.get('[data-testid=icgc_track_type_select]').parent().click()
     cy.get('[data-testid=option_occurrences]').click()
     cy.get('[data-testid=icgc_track_type_select]')
       .parent()
@@ -26,9 +24,7 @@ describe('nav filter widget', () => {
 
   it('adds a donor filter with one option', () => {
     cy.contains('Add Filter').click()
-    cy.get('[data-testid=filters_select]')
-      .parent()
-      .click()
+    cy.get('[data-testid=filters_select]').parent().click()
     cy.get('[data-testid=fil_menuitem_1]').click()
     cy.get('[data-testid=filters_select]')
       .parent()
@@ -38,27 +34,20 @@ describe('nav filter widget', () => {
 
   it('changes to the genes tab and adds a filter', () => {
     cy.get('[id=simple-tab-1]').click()
+    cy.wait(500)
     cy.contains('Add Filter').click()
-    cy.get('[data-testid=filters_select]')
-      .parent()
-      .click()
+    cy.get('[data-testid=filters_select]').parent().click()
     cy.get('[data-testid=fil_menuitem_0]').click()
-    cy.get('[data-testid=filters_select]')
-      .parent()
-      .should('have.text', '1')
+    cy.get('[data-testid=filters_select]').parent().should('have.text', '1')
     cy.get('body').click()
   })
 
   it('changes to the mutations tab and adds a mutation filter with 2 options', () => {
     cy.get('[id=simple-tab-2]').click()
     cy.contains('Add Filter').click()
-    cy.get('[data-testid=category_select]')
-      .parent()
-      .click()
+    cy.get('[data-testid=category_select]').parent().click()
     cy.get('[data-testid=cat_menuitem_3]').click()
-    cy.get('[data-testid=filters_select]')
-      .parent()
-      .click()
+    cy.get('[data-testid=filters_select]').parent().click()
     cy.get('[data-testid=fil_menuitem_0]').click()
     cy.get('[data-testid=fil_menuitem_1]').click()
     cy.get('[data-testid=filters_select]')
