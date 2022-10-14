@@ -43,13 +43,14 @@ describe('nav filter widget', () => {
   })
 
   it('changes to the mutations tab and adds a mutation filter with 2 options', () => {
-    cy.get('[id=simple-tab-2]').click()
-    cy.contains('Add Filter').click()
-    cy.get('[data-testid=category_select]').parent().click()
-    cy.get('[data-testid=cat_menuitem_3]').click()
-    cy.get('[data-testid=filters_select]').parent().click()
-    cy.get('[data-testid=fil_menuitem_0]').click()
-    cy.get('[data-testid=fil_menuitem_1]').click()
+    cy.get('[id=simple-tab-2]').click({ force: true })
+    cy.contains('Add Filter').click({ force: true })
+    cy.contains('Study').click({ force: true })
+    cy.get('[data-testid=cat_menuitem_3]').click({ force: true })
+    cy.get('[data-testid=filters_select]')
+      .parent()
+      .click({ force: true })
+      .type('{upArrow}{enter}{downArrow}{enter}')
     cy.get('[data-testid=filters_select]')
       .parent()
       .should('have.text', 'High, Low')
@@ -58,14 +59,14 @@ describe('nav filter widget', () => {
 
   it('deletes the mutation filter', () => {
     cy.get('[data-testid=filters_select]').should('exist')
-    cy.get('[data-testid=remove_filter_icon_button]').click()
+    cy.get('[data-testid=remove_filter_icon_button]').click({ force: true })
     cy.get('[data-testid=filters_select]').should('not.exist')
   })
 
   it('clears all the filters', () => {
     cy.get('[id=simple-tab-0]').click()
     cy.get('[data-testid=filters_select]').should('exist')
-    cy.get('[data-testid=clear_all_filters_icon_button]').click()
+    cy.get('[data-testid=clear_all_filters_icon_button]').click({ force: true })
     cy.get('[data-testid=filters_select]').should('not.exist')
   })
 })
