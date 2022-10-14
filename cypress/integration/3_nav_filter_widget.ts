@@ -10,37 +10,39 @@ describe('nav filter widget', () => {
   })
 
   it('opens the filter widget', () => {
-    cy.get('[data-testid=track_menu_icon]').click()
-    cy.contains('Filter').click()
+    cy.get('[data-testid=track_menu_icon]').click({ force: true })
+    cy.contains('Filter').click({ force: true })
     cy.contains('ICGC Filters')
   })
 
   it('changes the track type', () => {
-    cy.get('[data-testid=icgc_track_type_select]').parent().click()
-    cy.get('[data-testid=option_occurrences]').click()
+    cy.get('[data-testid=icgc_track_type_select]')
+      .parent()
+      .click({ force: true })
+    cy.get('[data-testid=option_occurrences]').click({ force: true })
     cy.get('[data-testid=icgc_track_type_select]')
       .parent()
       .should('have.text', 'Mutation Occurrences')
   })
 
   it('adds a donor filter with one option', () => {
-    cy.contains('Add Filter').click()
-    cy.get('[data-testid=filters_select]').parent().click()
-    cy.get('[data-testid=fil_menuitem_1]').click()
+    cy.contains('Add Filter').click({ force: true })
+    cy.get('[data-testid=filters_select]').parent().click({ force: true })
+    cy.get('[data-testid=fil_menuitem_1]').click({ force: true })
     cy.get('[data-testid=filters_select]')
       .parent()
       .should('have.text', 'local recurrence')
-    cy.get('body').click()
+    cy.get('body').click({ force: true })
   })
 
   it('changes to the genes tab and adds a filter', () => {
-    cy.get('[id=simple-tab-1]').click()
+    cy.get('[id=simple-tab-1]').click({ force: true })
     cy.wait(500)
-    cy.contains('Add Filter').click()
-    cy.get('[data-testid=filters_select]').parent().click()
-    cy.get('[data-testid=fil_menuitem_0]').click()
+    cy.contains('Add Filter').click({ force: true })
+    cy.get('[data-testid=filters_select]').parent().click({ force: true })
+    cy.get('[data-testid=fil_menuitem_0]').click({ force: true })
     cy.get('[data-testid=filters_select]').parent().should('have.text', '1')
-    cy.get('body').click()
+    cy.get('body').click({ force: true })
   })
 
   it('changes to the mutations tab and adds a mutation filter with 2 options', () => {
@@ -55,7 +57,7 @@ describe('nav filter widget', () => {
     cy.get('[data-testid=filters_select]')
       .parent()
       .should('have.text', 'High, Low')
-    cy.get('body').click()
+    cy.get('body').click({ force: true })
   })
 
   it('deletes the mutation filter', () => {
@@ -65,7 +67,7 @@ describe('nav filter widget', () => {
   })
 
   it('clears all the filters', () => {
-    cy.get('[id=simple-tab-0]').click()
+    cy.get('[id=simple-tab-0]').click({ force: true })
     cy.get('[data-testid=filters_select]').should('exist')
     cy.get('[data-testid=clear_all_filters_icon_button]').click({ force: true })
     cy.get('[data-testid=filters_select]').should('not.exist')
