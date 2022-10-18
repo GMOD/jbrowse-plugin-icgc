@@ -37,20 +37,18 @@ describe('nav filter widget', () => {
     cy.get('[data-testid=filters_select]')
       .parent()
       .should('have.text', 'local recurrence')
-    cy.get('body').click()
   })
 
   it('changes to the genes tab and adds a filter', () => {
     cy.get('[id=simple-tab-1]').click()
     cy.wait(500)
-    cy.contains('Add Filter').click({ force: true })
+    cy.contains('Add Filter').click()
     cy.get('[data-testid=filters_select]')
       .parent()
       .click({ force: true })
       .type('{downArrow}{enter}{esc}')
     cy.wait(1000)
     cy.get('[data-testid=filters_select]').parent().should('have.text', '1')
-    cy.get('body').click()
   })
 
   it('changes to the mutations tab and adds a mutation filter with 2 options', () => {
@@ -66,7 +64,6 @@ describe('nav filter widget', () => {
     cy.get('[data-testid=filters_select]')
       .parent()
       .should('have.text', 'High, Low')
-    cy.get('body').click()
   })
 
   it('deletes the mutation filter', () => {
