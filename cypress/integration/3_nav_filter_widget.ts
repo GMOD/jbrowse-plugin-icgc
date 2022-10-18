@@ -28,10 +28,10 @@ describe('nav filter widget', () => {
   })
 
   it('adds a donor filter with one option', () => {
-    cy.contains('Add Filter').click()
+    cy.contains('Add Filter').click({ multiple: true })
     cy.get('[data-testid=filters_select]')
       .parent()
-      .click({ force: true })
+      .click({ force: true, multiple: true })
       .type('{downArrow}{downArrow}{enter}{esc}')
     cy.wait(1000)
     cy.get('[data-testid=filters_select]')
@@ -42,10 +42,10 @@ describe('nav filter widget', () => {
   it('changes to the genes tab and adds a filter', () => {
     cy.get('[id=simple-tab-1]').click()
     cy.wait(500)
-    cy.contains('Add Filter').click()
+    cy.contains('Add Filter').click({ multiple: true })
     cy.get('[data-testid=filters_select]')
       .parent()
-      .click({ force: true })
+      .click({ force: true, multiple: true })
       .type('{downArrow}{enter}{esc}')
     cy.wait(1000)
     cy.get('[data-testid=filters_select]').parent().should('have.text', '1')
